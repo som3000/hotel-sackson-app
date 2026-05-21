@@ -1,4 +1,4 @@
-package com.hotel.exception;
+package com.hotel.exceptions;
 
 public class RoomLimitExceeded extends Throwable {
   public RoomLimitExceeded() {

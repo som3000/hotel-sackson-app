@@ -3,10 +3,11 @@ package com.hotel.repositories;
 import com.hotel.dto.HotelReceipt;
 import com.hotel.entities.Receipt;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 
-@Component
+@Repository
 public class BookingRepository {
   private final Map<Integer, Receipt> receipts;
 

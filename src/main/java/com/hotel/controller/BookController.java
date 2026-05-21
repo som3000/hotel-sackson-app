@@ -2,14 +2,15 @@ package com.hotel.controller;
 
 import com.hotel.dto.BookingRequest;
 import com.hotel.dto.BookingResponse;
-import com.hotel.dto.DetailedReceipt;
-import com.hotel.exception.ReceiptIdNotFound;
-import com.hotel.exception.RoomLimitExceeded;
+import com.hotel.exceptions.ReceiptIdNotFound;
+import com.hotel.exceptions.RoomLimitExceeded;
 import com.hotel.services.BookingService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/bookings")
@@ -21,10 +22,10 @@ public class BookController {
   }
 
   @PostMapping
-  public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest) {
+  public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest, Principal principal) {
     try {
-      BookingResponse book = bookingService.book(bookingRequest);
-      return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(book);
+      BookingResponse responseForBooking = bookingService.book(bookingRequest, principal.getName());
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseForBooking);
     } catch (RoomLimitExceeded e) {
       BookingResponse bookingResponse = new BookingResponse(e.getMessage());
       return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(bookingResponse);

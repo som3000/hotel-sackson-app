@@ -3,10 +3,11 @@ package com.hotel.services;
 import com.hotel.dto.HotelView;
 import com.hotel.repositories.HotelRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class HotelService {
   private final HotelRepository hotelRepository;
 

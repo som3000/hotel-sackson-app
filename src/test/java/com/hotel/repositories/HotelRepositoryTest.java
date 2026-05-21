@@ -24,7 +24,7 @@ class HotelRepositoryTest {
 
     hotels.add(SACKSON);
     hotels.add(IRB);
-    HotelView expected = new HotelView("SACKSON", "1", "Delhi", 1000.00, 55);
+    HotelView expected = new HotelView("SACKSON", "Delhi", 1, 1000.00, 55);
     HotelRepository hotelRepository = new HotelRepository(hotels);
     assertEquals(1,hotelRepository.filterHotels("Delhi").size());
   }
