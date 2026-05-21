@@ -35,7 +35,7 @@ class AuthControllerTest {
   void itShouldRegisterUser() {
 
     client.post()
-            .uri("/api/users/register")
+            .uri("/users/register")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk();
@@ -51,7 +51,7 @@ class AuthControllerTest {
     Mockito.doNothing().when(auth).authenticate("u1", "123");
 
     String token = client.post()
-            .uri("/api/users/login")
+            .uri("/users/login")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk()
@@ -70,7 +70,7 @@ class AuthControllerTest {
     Mockito.doThrow(InvalidCredentials.class).when(auth).authenticate("u1", "123");
 
     String msg = client.post()
-            .uri("/api/users/login")
+            .uri("/users/login")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk()

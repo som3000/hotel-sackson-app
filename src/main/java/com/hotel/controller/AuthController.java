@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class AuthController {
 
   private final UserService userService;
@@ -43,8 +43,6 @@ public class AuthController {
                       userAuthRequest.username(),
                       userAuthRequest.password()
               );
-
-
       return jwtUtils.generateToken(userAuthRequest.username());
     } catch (InvalidCredentials e) {
       return "invalid Request";
