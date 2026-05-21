@@ -20,10 +20,11 @@ public class SecurityConfig {
     http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/**").permitAll();
-                    auth.anyRequest().authenticated();
-                    }).
+            .authorizeHttpRequests(auth ->
+                    auth.requestMatchers("/users/**").permitAll()
+                    .requestMatchers("/search/**").permitAll()
+                    .anyRequest().authenticated()
+                    ).
             addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();

@@ -19,15 +19,6 @@ public class Hotel {
     this.rent = rent;
     this.availableRooms = availableRooms;
   }
-
-  public boolean isInCity(String city) {
-    return city.equals(this.city);
-  }
-
-  public HotelView project() {
-    return new  HotelView(this.name, this.city, this.id, this.rent, this.availableRooms);
-  }
-
   public boolean areRoomsAvailable(int noOfRooms) {
     return this.availableRooms >= noOfRooms;
   }
@@ -36,9 +27,5 @@ public class Hotel {
     this.availableRooms = this.availableRooms - noOfRooms;
     double bill = noOfRooms * rent;
     return new HotelReceipt(name, id, noOfRooms, bill);
-  }
-
-  public boolean isSameId(int hotelId) {
-    return this.id == hotelId;
   }
 }

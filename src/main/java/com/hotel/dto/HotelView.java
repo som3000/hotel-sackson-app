@@ -1,4 +1,6 @@
 package com.hotel.dto;
 
-public record HotelView(String name, String city, int id, double rent, int availableRooms) {
+import org.bson.types.ObjectId;
+
+public record HotelView(String name, String city, ObjectId id, double rent, int availableRooms) {
 }
