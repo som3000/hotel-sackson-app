@@ -30,4 +30,12 @@ public class Receipt {
             ", bill=" + bill +
             '}';
   }
+
+  public boolean isCurrentUserReceipt(String username) {
+    return username.equals(this.username);
+  }
+
+  public DetailedReceipt project() {
+    return new DetailedReceipt(receiptId, username, id, hotel, rooms, bill);
+  }
 }

@@ -1,9 +1,11 @@
 package com.hotel.repositories;
 
+import com.hotel.dto.DetailedReceipt;
 import com.hotel.dto.HotelReceipt;
 import com.hotel.entities.Receipt;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -22,5 +24,14 @@ public class BookingRepository {
 
   public Receipt getReceiptById(int receiptId) {
     return receipts.get(receiptId);
+  }
+
+  public List<DetailedReceipt> getBookingsByUsername(String username) {
+    return receipts
+            .values()
+            .stream()
+            .filter(receipt -> receipt.isCurrentUserReceipt(username))
+            .map(Receipt::project)
+            .toList();
   }
 }

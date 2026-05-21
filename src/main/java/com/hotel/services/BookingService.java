@@ -2,6 +2,7 @@ package com.hotel.services;
 
 import com.hotel.dto.BookingRequest;
 import com.hotel.dto.BookingResponse;
+import com.hotel.dto.DetailedReceipt;
 import com.hotel.dto.HotelReceipt;
 import com.hotel.entities.Hotel;
 import com.hotel.entities.Receipt;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Service
 public class BookingService {
@@ -54,5 +56,9 @@ public class BookingService {
     String message = "Room booked successfully! \n ReceiptId is : " + receiptId;
     bookingRepository.store(receiptId, username, hotelReceipt);
     return new BookingResponse(message);
+  }
+
+  public List<DetailedReceipt> getBookingsByUser(String username) {
+    return bookingRepository.getBookingsByUsername(username);
   }
 }
