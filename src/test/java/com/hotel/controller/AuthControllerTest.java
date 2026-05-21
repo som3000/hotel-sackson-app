@@ -26,6 +26,9 @@ class AuthControllerTest {
   private UserService userService;
 
   @MockitoBean
+  private JwtUtils jwtUtils;
+
+  @MockitoBean
   private UserAuthenticaionManager auth;
 
   @Test
@@ -43,7 +46,8 @@ class AuthControllerTest {
   @Test
   void itShouldLoginAndReturnAccessToken() {
 
-    String expectedToken = JwtUtils.generateToken("u1");
+    String expectedToken = "abc";
+    Mockito.when(jwtUtils.generateToken("u1")).thenReturn(expectedToken);
     Mockito.doNothing().when(auth).authenticate("u1", "123");
 
     String token = client.post()

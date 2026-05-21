@@ -1,14 +1,14 @@
 package com.hotel.repositories;
 
-import com.hotel.entities.Hotel;
 import com.hotel.dto.HotelView;
+import com.hotel.entities.Hotel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class HotelRepositoryTest {
 
@@ -24,8 +24,8 @@ class HotelRepositoryTest {
 
     hotels.add(SACKSON);
     hotels.add(IRB);
-    HotelView expected = new HotelView("SACKSON", "1", "Delhi", 1000.00, 55);
+    HotelView expected = new HotelView("SACKSON", "Delhi", 1, 1000.00, 55);
     HotelRepository hotelRepository = new HotelRepository(hotels);
-    assertEquals(1,hotelRepository.filterHotels("Delhi").size());
+    assertEquals(1, hotelRepository.filterHotels("Delhi").size());
   }
 }

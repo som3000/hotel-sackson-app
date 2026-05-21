@@ -10,9 +10,9 @@ import java.util.Date;
 @Component
 public class JwtUtils {
   //  @Value(value = "${SECRET}")
-  private static String SECRET = "1234ABCDEFGHakdlfjalkdfjaljfdkldajflkadjdas";
+  private String SECRET = "1234ABCDEFGHakdlfjalkdfjaljfdkldajflkadjdas";
 
-  public static String generateToken(String username) {
+  public String generateToken(String username) {
     return Jwts.builder()
             .setSubject(username)
             .setIssuedAt(new Date())

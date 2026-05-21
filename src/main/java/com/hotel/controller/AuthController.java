@@ -18,10 +18,12 @@ public class AuthController {
 
   private final UserService userService;
   private final UserAuthenticaionManager userAuthenticaionManager;
+  private final JwtUtils jwtUtils;
 
-  public AuthController(UserService userService, UserAuthenticaionManager userAuthenticaionManager) {
+  public AuthController(UserService userService, UserAuthenticaionManager userAuthenticaionManager, JwtUtils jwtUtils) {
     this.userService = userService;
     this.userAuthenticaionManager = userAuthenticaionManager;
+    this.jwtUtils = jwtUtils;
   }
 
   @PostMapping("/register")
@@ -43,7 +45,7 @@ public class AuthController {
               );
 
 
-      return JwtUtils.generateToken(userAuthRequest.username());
+      return jwtUtils.generateToken(userAuthRequest.username());
     } catch (InvalidCredentials e) {
       return "invalid Request";
     }
