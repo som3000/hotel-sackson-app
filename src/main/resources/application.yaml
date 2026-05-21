@@ -4,3 +4,6 @@ spring:
     server:
       servlet:
         context-path=/api:
+
+server:
+  port: 3000
