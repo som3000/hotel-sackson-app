@@ -2,8 +2,11 @@ package com.hotel.controller;
 
 import com.hotel.dto.BookingRequest;
 import com.hotel.dto.BookingResponse;
+import com.hotel.dto.DetailedReceipt;
+import com.hotel.exception.ReceiptIdNotFound;
 import com.hotel.exception.RoomLimitExceeded;
 import com.hotel.services.BookingService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,20 @@ public class BookController {
     } catch (RoomLimitExceeded e) {
       BookingResponse bookingResponse = new BookingResponse(e.getMessage());
       return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(bookingResponse);
+    }
+  }
+
+  @GetMapping("{bookingId}/receipt")
+  public ResponseEntity<byte[]> generateReceipt(@PathVariable int bookingId) {
+    try {
+      byte[] receiptPdf = bookingService.generateReceipt(bookingId);
+      return ResponseEntity
+              .ok()
+              .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=receipt.pdf")
+              .contentType(MediaType.APPLICATION_PDF)
+              .body(receiptPdf);
+    } catch (ReceiptIdNotFound e) {
+      return ResponseEntity.notFound().build();
     }
   }
 }

@@ -1,5 +1,6 @@
 package com.hotel.entities;
 
+import com.hotel.dto.HotelReceipt;
 import com.hotel.dto.HotelView;
 
 public class Hotel {
@@ -31,7 +32,13 @@ public class Hotel {
     return this.availableRooms >= noOfRooms;
   }
 
-  public void book(int noOfRooms) {
+  public HotelReceipt book(int noOfRooms) {
     this.availableRooms = this.availableRooms - noOfRooms;
+    double bill = noOfRooms * rent;
+    return new HotelReceipt(name, id, noOfRooms, bill);
+  }
+
+  public boolean isSameId(int hotelId) {
+    return this.id == hotelId;
   }
 }
