@@ -67,14 +67,14 @@ class AuthControllerTest {
   @Test
   void itShouldLoginAndReturnErrorMessage() {
 
-    String expectedMsg = "invalid Request";
+    String expectedMsg = "invalid credential";
     Mockito.doThrow(InvalidCredentials.class).when(auth).authenticate("u1", "123");
 
     String msg = client.post()
             .uri("/users/login")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
-            .expectStatus().isOk()
+            .expectStatus().isBadRequest()
             .expectBody(String.class)
             .returnResult()
             .getResponseBody();
