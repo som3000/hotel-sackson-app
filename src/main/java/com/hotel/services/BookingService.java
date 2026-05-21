@@ -10,6 +10,7 @@ import com.hotel.exceptions.ReceiptIdNotFound;
 import com.hotel.exceptions.RoomLimitExceeded;
 import com.hotel.repositories.BookingRepository;
 import com.hotel.repositories.HotelsRepository;
+import org.bson.types.ObjectId;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,14 @@ import java.util.List;
 public class BookingService {
   private final HotelsRepository hotelRepository;
   private final BookingRepository bookingRepository;
-  private int nextReceiptId;
 
   public BookingService(HotelsRepository hotelRepository, BookingRepository bookingRepository) {
     this.hotelRepository = hotelRepository;
     this.bookingRepository = bookingRepository;
-    this.nextReceiptId = 1;
   }
 
-  public byte[] generateReceipt(int bookingId) throws ReceiptIdNotFound {
-    Receipt receipt = bookingRepository.getReceiptById(bookingId);
+  public byte[] generateReceipt(ObjectId bookingId) throws ReceiptIdNotFound {
+    DetailedReceipt receipt = bookingRepository.findReceiptById(bookingId);
     if (receipt == null) {
       throw new ReceiptIdNotFound();
     }
@@ -51,13 +50,14 @@ public class BookingService {
   private @NonNull BookingResponse processBookingRequest(BookingRequest bookingRequest, Hotel hotel, String username) {
     HotelReceipt hotelReceipt = hotel.book(bookingRequest.rooms());
     hotelRepository.save(hotel);
-    int receiptId = nextReceiptId++;
+    Receipt receipt = new Receipt(username, hotelReceipt.id(), hotelReceipt.hotel(), hotelReceipt.rooms(), hotelReceipt.bill());
+    Receipt savedHotel = bookingRepository.save(receipt);
+    ObjectId receiptId = savedHotel.getId();
     String message = "Room booked successfully! \n ReceiptId is : " + receiptId;
-    bookingRepository.store(receiptId, username, hotelReceipt);
     return new BookingResponse(message);
   }
 
   public List<DetailedReceipt> getBookingsByUser(String username) {
-    return bookingRepository.getBookingsByUsername(username);
+    return bookingRepository.findReceiptsByUsername(username);
   }
 }

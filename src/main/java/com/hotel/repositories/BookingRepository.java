@@ -3,35 +3,15 @@ package com.hotel.repositories;
 import com.hotel.dto.DetailedReceipt;
 import com.hotel.dto.HotelReceipt;
 import com.hotel.entities.Receipt;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BookingRepository {
-  private final Map<Integer, Receipt> receipts;
-
-  public BookingRepository(Map<Integer, Receipt> receipts) {
-    this.receipts = receipts;
-  }
-
-  public void store(int receiptId, String username, HotelReceipt hotelReceipt) {
-    Receipt receipt = new Receipt(receiptId, username, hotelReceipt.id(), hotelReceipt.hotel(), hotelReceipt.rooms(), hotelReceipt.bill());
-    receipts.put(receiptId, receipt);
-  }
-
-
-  public Receipt getReceiptById(int receiptId) {
-    return receipts.get(receiptId);
-  }
-
-  public List<DetailedReceipt> getBookingsByUsername(String username) {
-    return receipts
-            .values()
-            .stream()
-            .filter(receipt -> receipt.isCurrentUserReceipt(username))
-            .map(Receipt::project)
-            .toList();
-  }
+public interface BookingRepository extends MongoRepository<Receipt, Integer> {
+  DetailedReceipt findReceiptById(ObjectId id);
+  List<DetailedReceipt> findReceiptsByUsername(String username);
 }

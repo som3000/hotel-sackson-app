@@ -1,41 +1,30 @@
 package com.hotel.entities;
 
 import com.hotel.dto.DetailedReceipt;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document
 public class Receipt {
-  private final int receiptId;
+  @Id
+  private ObjectId id;
+
   private final String username;
-  private final int id;
+  private final int hotel_id;
   private final String hotel;
   private final int rooms;
   private final double bill;
 
-  public Receipt(int receiptId, String username, int id, String hotel, int rooms, double bill) {
-    this.receiptId = receiptId;
+  public Receipt(String username, int hotel_id, String hotel, int rooms, double bill) {
     this.username = username;
-    this.id = id;
+    this.hotel_id = hotel_id;
     this.hotel = hotel;
     this.rooms = rooms;
     this.bill = bill;
   }
 
-  @Override
-  public String toString() {
-    return "Receipt{" +
-            "receiptId=" + receiptId +
-            ", username='" + username + '\'' +
-            ", id=" + id +
-            ", hotel='" + hotel + '\'' +
-            ", rooms=" + rooms +
-            ", bill=" + bill +
-            '}';
-  }
-
-  public boolean isCurrentUserReceipt(String username) {
-    return username.equals(this.username);
-  }
-
-  public DetailedReceipt project() {
-    return new DetailedReceipt(receiptId, username, id, hotel, rooms, bill);
+  public ObjectId getId() {
+    return id;
   }
 }

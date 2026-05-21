@@ -6,6 +6,7 @@ import com.hotel.dto.DetailedReceipt;
 import com.hotel.exceptions.ReceiptIdNotFound;
 import com.hotel.exceptions.RoomLimitExceeded;
 import com.hotel.services.BookingService;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,8 @@ public class BookController {
             .body(bookingsByUser);
   }
 
-  @GetMapping("{bookingId}/receipt")
-  public ResponseEntity<byte[]> generateReceipt(@PathVariable int bookingId) {
+  @GetMapping("{bookingId}/receipt.pdf")
+  public ResponseEntity<byte[]> generateReceipt(@PathVariable ObjectId bookingId) {
     try {
       byte[] receiptPdf = bookingService.generateReceipt(bookingId);
       return ResponseEntity
