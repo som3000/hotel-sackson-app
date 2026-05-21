@@ -27,13 +27,16 @@ class AuthControllerTest {
   private UserService userService;
 
   @MockitoBean
+  private JwtUtils jwtUtils;
+
+  @MockitoBean
   private UserAuthenticationManager auth;
 
   @Test
   void itShouldRegisterUser() {
 
     client.post()
-            .uri("/api/users/register")
+            .uri("/users/register")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk();
@@ -41,14 +44,15 @@ class AuthControllerTest {
     Mockito.verify(userService).register("u1", "123");
   }
 
-  @Disabled
+  @Test
   void itShouldLoginAndReturnAccessToken() {
 
-    String expectedToken = JwtUtils.generateToken("u1");
+    String expectedToken = "abc";
+    Mockito.when(jwtUtils.generateToken("u1")).thenReturn(expectedToken);
     Mockito.doNothing().when(auth).authenticate("u1", "123");
 
     String token = client.post()
-            .uri("/api/users/login")
+            .uri("/users/login")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk()
@@ -56,7 +60,7 @@ class AuthControllerTest {
             .returnResult()
             .getResponseBody();
 
-//    assertEquals(expectedToken, token);
+    assertEquals(expectedToken, token);
     Mockito.verify(auth).authenticate("u1", "123");
   }
 
@@ -67,7 +71,7 @@ class AuthControllerTest {
     Mockito.doThrow(InvalidCredentials.class).when(auth).authenticate("u1", "123");
 
     String msg = client.post()
-            .uri("/api/users/login")
+            .uri("/users/login")
             .body(new UserAuthRequest("u1", "123"))
             .exchange()
             .expectStatus().isOk()

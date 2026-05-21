@@ -18,6 +18,7 @@ public class UserService {
     String id = uuidGenerator.generate();
     User user = new User(id, username, password);
     userRepository.save(user);
+    System.out.println(userRepository);
   }
 
 }

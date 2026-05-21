@@ -24,6 +24,7 @@ public class BookController {
   @PostMapping
   public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest, Principal principal) {
     try {
+      System.out.println(principal.getName());
       BookingResponse responseForBooking = bookingService.book(bookingRequest, principal.getName());
       return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(responseForBooking);
     } catch (RoomLimitExceeded e) {

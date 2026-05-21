@@ -19,10 +19,12 @@ public class AuthController {
 
   private final UserService userService;
   private final UserAuthenticationManager userAuthenticationManager;
+  private final JwtUtils jwtUtils;
 
-  public AuthController(UserService userService, UserAuthenticationManager userAuthenticationManager) {
+  public AuthController(UserService userService, UserAuthenticationManager userAuthenticationManager, JwtUtils jwtUtils) {
     this.userService = userService;
     this.userAuthenticationManager = userAuthenticationManager;
+    this.jwtUtils = jwtUtils;
   }
 
   @PostMapping("/register")
@@ -43,8 +45,7 @@ public class AuthController {
                       userAuthRequest.password()
               );
 
-
-      return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(JwtUtils.generateToken(userAuthRequest.username()));
+      return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(jwtUtils.generateToken(userAuthRequest.username()));
     } catch (InvalidCredentials e) {
       return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("invalid credential");
     }

@@ -37,10 +37,10 @@ public class BookingService {
   }
 
   public BookingResponse book(BookingRequest bookingRequest, String name) throws RoomLimitExceeded {
-    System.out.println("name -> "+name);
+    System.out.println(bookingRequest.hotel_id());
     int hotelId = bookingRequest.hotel_id();
     Hotel hotel = hotelRepository.find(hotelId);
-    boolean isBookable = hotel.areRoomsAvailable(bookingRequest.noOfRooms());
+    boolean isBookable = hotel.areRoomsAvailable(bookingRequest.rooms());
     if (!isBookable) {
       throw new RoomLimitExceeded();
     }
@@ -49,7 +49,7 @@ public class BookingService {
   }
 
   private @NonNull BookingResponse processBookingRequest(BookingRequest bookingRequest, Hotel hotel, String username) {
-    HotelReceipt hotelReceipt = hotel.book(bookingRequest.noOfRooms());
+    HotelReceipt hotelReceipt = hotel.book(bookingRequest.rooms());
     int receiptId = nextReceiptId++;
     String message = "Room booked successfully! \n ReceiptId is : " + receiptId;
     bookingRepository.store(receiptId, username, hotelReceipt);

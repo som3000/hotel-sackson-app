@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserAuthenticationManager {
-  public final UserRepository userRepository;
+  private final UserRepository userRepository;
 
   public UserAuthenticationManager(UserRepository userRepository) {
     this.userRepository = userRepository;
@@ -16,7 +16,7 @@ public class UserAuthenticationManager {
 
   public void authenticate(String username, String password) {
     User user = userRepository.findByUsernameAndPassword(username, password);
-    System.out.println(user);
+    System.out.println(userRepository);
     if (user == null) {
       throw new InvalidCredentials("invalid username and password");
     }
