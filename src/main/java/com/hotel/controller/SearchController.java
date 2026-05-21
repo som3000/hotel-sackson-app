@@ -1,7 +1,6 @@
 package com.hotel.controller;
 
-import com.hotel.entities.Hotel;
-import com.hotel.entities.HotelView;
+import com.hotel.dto.HotelView;
 import com.hotel.services.HotelService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

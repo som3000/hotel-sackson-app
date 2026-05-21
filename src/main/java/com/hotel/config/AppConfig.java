@@ -13,8 +13,8 @@ public class AppConfig {
   @Bean
   public HotelRepository hotelRepository() {
     List<Hotel> hotels = new ArrayList<>();
-    hotels.add(new Hotel("SACKSON", "1", "Delhi", 1000.00, 55));
-    hotels.add(new Hotel("ITC ROYAL BENGAL", "2", "Kolkata", 10000.00, 120));
+    hotels.add(new Hotel("SACKSON", 1, "Delhi", 1000.00, 55));
+    hotels.add(new Hotel("ITC ROYAL BENGAL", 2, "Kolkata", 10000.00, 120));
     return new HotelRepository(hotels);
   }
 }

@@ -1,7 +1,7 @@
 package com.hotel.repositories;
 
 import com.hotel.entities.Hotel;
-import com.hotel.entities.HotelView;
+import com.hotel.dto.HotelView;
 
 import java.util.List;
 
@@ -14,5 +14,9 @@ public class HotelRepository {
 
   public List<HotelView> filterHotels(String city) {
     return hotels.stream().filter(hotel -> hotel.isInCity(city)).map(Hotel::project).toList();
+  }
+
+  public Hotel find(int hotel_id) {
+    return hotels.get(hotel_id);
   }
 }

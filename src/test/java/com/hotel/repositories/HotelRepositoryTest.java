@@ -1,11 +1,9 @@
 package com.hotel.repositories;
 
 import com.hotel.entities.Hotel;
-import com.hotel.entities.HotelView;
+import com.hotel.dto.HotelView;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.management.AttributeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +19,8 @@ class HotelRepositoryTest {
   @Test
   void shouldReturnFilteredHotels() {
     List<Hotel> hotels = new ArrayList<>();
-    Hotel SACKSON = new Hotel("SACKSON", "1", "Delhi", 1000.00, 55);
-    Hotel IRB = new Hotel("ITC ROYAL BENGAL", "2", "Kolkata", 10000.00, 120);
+    Hotel SACKSON = new Hotel("SACKSON", 1, "Delhi", 1000.00, 55);
+    Hotel IRB = new Hotel("ITC ROYAL BENGAL", 2, "Kolkata", 10000.00, 120);
 
     hotels.add(SACKSON);
     hotels.add(IRB);

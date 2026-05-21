@@ -1,7 +1,6 @@
 package com.hotel.services;
 
-import com.hotel.entities.Hotel;
-import com.hotel.entities.HotelView;
+import com.hotel.dto.HotelView;
 import com.hotel.repositories.HotelRepository;
 import org.springframework.stereotype.Component;
 

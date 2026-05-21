@@ -1,0 +1,30 @@
+package com.hotel.controller;
+
+import com.hotel.dto.BookingRequest;
+import com.hotel.dto.BookingResponse;
+import com.hotel.exception.RoomLimitExceeded;
+import com.hotel.services.BookingService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/bookings")
+public class BookController {
+  private final BookingService bookingService;
+
+  public BookController(BookingService bookingService) {
+    this.bookingService = bookingService;
+  }
+
+  @PostMapping
+  public ResponseEntity<BookingResponse> bookings(@RequestBody BookingRequest bookingRequest) {
+    try {
+      BookingResponse book = bookingService.book(bookingRequest);
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(book);
+    } catch (RoomLimitExceeded e) {
+      BookingResponse bookingResponse = new BookingResponse(e.getMessage());
+      return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(bookingResponse);
+    }
+  }
+}
