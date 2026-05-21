@@ -1,7 +1,9 @@
 package com.hotel.service;
 
 import com.hotel.models.User;
-import com.hotel.repository.UserRepository;
+import com.hotel.repositories.UserRepository;
+import com.hotel.services.UUIDGenerator;
+import com.hotel.services.UserService;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.*;
