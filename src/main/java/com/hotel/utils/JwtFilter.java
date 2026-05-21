@@ -15,8 +15,11 @@ import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
-  @Autowired
-  private JwtUtils jwtUtils;
+  private final JwtUtils jwtUtils;
+
+  public JwtFilter(JwtUtils jwtUtils) {
+    this.jwtUtils = jwtUtils;
+  }
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

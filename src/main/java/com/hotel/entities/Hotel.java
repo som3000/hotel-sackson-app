@@ -2,11 +2,13 @@ package com.hotel.entities;
 
 import com.hotel.dto.HotelReceipt;
 import com.hotel.dto.HotelView;
+import org.springframework.data.annotation.Id;
 
 public class Hotel {
+  @Id
+  private final int id;
   private final String name;
   private final String city;
-  private final int id;
   private double rent;
   private int availableRooms;
 
@@ -19,8 +21,6 @@ public class Hotel {
   }
 
   public boolean isInCity(String city) {
-    System.out.println("Is in city: " + city);
-    System.out.println(city.equals(this.city));
     return city.equals(this.city);
   }
 

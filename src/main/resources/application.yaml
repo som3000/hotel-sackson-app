@@ -5,3 +5,8 @@ server:
   servlet:
     context-path: /api
   port: 3000
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 7.0.12

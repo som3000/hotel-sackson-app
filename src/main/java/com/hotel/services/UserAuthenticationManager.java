@@ -16,7 +16,6 @@ public class UserAuthenticationManager {
 
   public void authenticate(String username, String password) {
     User user = userRepository.findByUsernameAndPassword(username, password);
-    System.out.println(userRepository);
     if (user == null) {
       throw new InvalidCredentials("invalid username and password");
     }

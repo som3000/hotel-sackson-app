@@ -23,7 +23,6 @@ public class SearchController {
   @GetMapping("/hotels")
   public ResponseEntity<List<HotelView>> search(@RequestParam(defaultValue = "") String city) {
     List<HotelView> hotels = hotelService.search(city);
-    System.out.println(hotels);
     return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(hotels);
   }
 }
