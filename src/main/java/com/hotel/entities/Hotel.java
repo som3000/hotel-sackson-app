@@ -1,24 +1,23 @@
 package com.hotel.entities;
 
 import com.hotel.dto.HotelReceipt;
-import com.hotel.dto.HotelView;
 import org.springframework.data.annotation.Id;
 
 public class Hotel {
   @Id
-  private final int id;
+  private String id;
   private final String name;
   private final String city;
-  private double rent;
+  private final double rent;
   private int availableRooms;
 
-  public Hotel(String name, int id, String city, double rent, int availableRooms) {
+  public Hotel(String name, String city, double rent, int availableRooms) {
     this.name = name;
-    this.id = id;
     this.city = city;
     this.rent = rent;
     this.availableRooms = availableRooms;
   }
+
   public boolean areRoomsAvailable(int noOfRooms) {
     return this.availableRooms >= noOfRooms;
   }

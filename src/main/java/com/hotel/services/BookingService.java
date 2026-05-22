@@ -37,7 +37,7 @@ public class BookingService {
   }
 
   public BookingResponse book(BookingRequest bookingRequest, String name) throws RoomLimitExceeded {
-    int hotelId = bookingRequest.hotel_id();
+    String hotelId = bookingRequest.hotel_id();
     Hotel hotel = hotelRepository.findHotelById(hotelId);
     boolean isBookable = hotel.areRoomsAvailable(bookingRequest.rooms());
     if (!isBookable) {

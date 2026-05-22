@@ -14,11 +14,11 @@ class UserServiceTest {
   void itShouldRegisterUser() {
     UserRepository repo = mock(UserRepository.class);
     UUIDGenerator uuidGenerator = mock(UUIDGenerator.class);
-    User user = new User("1", "username", "password");
+    User user = new User("username", "password");
 
     when(uuidGenerator.generate()).thenReturn("1");
 
-    UserService userService = new UserService(repo, uuidGenerator);
+    UserService userService = new UserService(repo);
 
     userService.register("username", "password");
 

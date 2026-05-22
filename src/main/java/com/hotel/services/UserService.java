@@ -1,5 +1,6 @@
 package com.hotel.services;
 
+import com.hotel.exceptions.UsernameAlreadyExits;
 import com.hotel.models.User;
 import com.hotel.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -7,17 +8,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
   private final UserRepository userRepository;
-  private final UUIDGenerator uuidGenerator;
 
-  public UserService(UserRepository userRepository, UUIDGenerator uuidGenerator) {
+  public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
-    this.uuidGenerator = uuidGenerator;
   }
 
   public void register(String username, String password) {
-    String id = uuidGenerator.generate();
-    User user = new User(id, username, password);
-    userRepository.save(user);
+    User user = userRepository.getUserByUsername(username);
+    if (user != null) {
+      throw new UsernameAlreadyExits("username already exists");
+    }
+    User newUser = new User(username, password);
+    userRepository.save(newUser);
+    System.out.println(userRepository);
   }
 
 }

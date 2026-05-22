@@ -1,6 +1,5 @@
 package com.hotel.entities;
 
-import com.hotel.dto.DetailedReceipt;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,12 +10,12 @@ public class Receipt {
   private ObjectId id;
 
   private final String username;
-  private final int hotel_id;
+  private final String hotel_id;
   private final String hotel;
   private final int rooms;
   private final double bill;
 
-  public Receipt(String username, int hotel_id, String hotel, int rooms, double bill) {
+  public Receipt(String username, String hotel_id, String hotel, int rooms, double bill) {
     this.username = username;
     this.hotel_id = hotel_id;
     this.hotel = hotel;

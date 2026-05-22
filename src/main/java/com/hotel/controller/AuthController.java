@@ -2,6 +2,7 @@ package com.hotel.controller;
 
 
 import com.hotel.exceptions.InvalidCredentials;
+import com.hotel.exceptions.UsernameAlreadyExits;
 import com.hotel.services.UserAuthenticationManager;
 import com.hotel.services.UserService;
 import com.hotel.utils.JwtUtils;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -30,13 +34,17 @@ public class AuthController {
   @PostMapping("/register")
   public ResponseEntity<String> post(@RequestBody UserAuthRequest userAuthRequest) {
 
-    userService.register(userAuthRequest.username(), userAuthRequest.password());
-
-    return ResponseEntity.ok("registered successfully");
+    try {
+      userService.register(userAuthRequest.username(), userAuthRequest.password());
+      return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body("registered successfully");
+    } catch (UsernameAlreadyExits e) {
+      return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("username already exists");
+    }
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody UserAuthRequest userAuthRequest) {
+  public ResponseEntity<Map<String, String>> login(@RequestBody UserAuthRequest userAuthRequest) {
+    Map<String, String> view = new HashMap<>();
 
     try {
       userAuthenticationManager
@@ -45,9 +53,12 @@ public class AuthController {
                       userAuthRequest.password()
               );
 
-      return ResponseEntity.ok().contentType(MediaType.TEXT_PLAIN).body(jwtUtils.generateToken(userAuthRequest.username()));
+      String token = jwtUtils.generateToken(userAuthRequest.username());
+      view.put("token", token);
+      return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(view);
     } catch (InvalidCredentials e) {
-      return ResponseEntity.badRequest().contentType(MediaType.TEXT_PLAIN).body("invalid credential");
+      view.put("msg", "token not found for you");
+      return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).body(view);
     }
 
   }

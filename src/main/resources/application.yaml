@@ -1,10 +1,14 @@
 spring:
   application:
     name: hotel
+
+  mongodb:
+    uri: "${HOTEL_MONGO_URI:mongodb://localhost:27017/hotel}"
+
 server:
   servlet:
     context-path: /api
-  port: 3000
+  port: 8080
 de:
   flapdoodle:
     mongodb:
