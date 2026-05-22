@@ -1,12 +1,12 @@
-package com.hotel.controller;
+package com.hotel.auth.controller;
 
 
 import com.hotel.exceptions.InvalidCredentials;
 import com.hotel.exceptions.UsernameAlreadyExits;
-import com.hotel.services.UserAuthenticationManager;
-import com.hotel.services.UserService;
+import com.hotel.auth.services.UserAuthenticationManager;
+import com.hotel.auth.services.UserService;
 import com.hotel.utils.JwtUtils;
-import com.hotel.views.UserAuthRequest;
+import com.hotel.auth.views.UserAuthRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

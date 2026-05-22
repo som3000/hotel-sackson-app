@@ -1,14 +1,12 @@
-package com.hotel.repositories;
+package com.hotel.booking.repository;
 
 import com.hotel.dto.DetailedReceipt;
-import com.hotel.dto.HotelReceipt;
-import com.hotel.entities.Receipt;
+import com.hotel.booking.entity.Receipt;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface BookingRepository extends MongoRepository<Receipt, Integer> {

@@ -1,9 +1,9 @@
-package com.hotel.services;
+package com.hotel.auth.services;
 
 
 import com.hotel.exceptions.InvalidCredentials;
-import com.hotel.models.User;
-import com.hotel.repositories.UserRepository;
+import com.hotel.auth.entity.User;
+import com.hotel.auth.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

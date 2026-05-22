@@ -1,30 +1,30 @@
-package com.hotel.services;
+package com.hotel.booking.service;
 
+import com.hotel.booking.repository.BookingRepository;
 import com.hotel.dto.BookingRequest;
 import com.hotel.dto.BookingResponse;
 import com.hotel.dto.DetailedReceipt;
 import com.hotel.dto.HotelReceipt;
-import com.hotel.entities.Hotel;
-import com.hotel.entities.Receipt;
+import com.hotel.booking.entity.Receipt;
 import com.hotel.exceptions.ReceiptIdNotFound;
 import com.hotel.exceptions.RoomLimitExceeded;
-import com.hotel.repositories.BookingRepository;
-import com.hotel.repositories.HotelsRepository;
 import org.bson.types.ObjectId;
 import org.jspecify.annotations.NonNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
 public class BookingService {
-  private final HotelsRepository hotelRepository;
   private final BookingRepository bookingRepository;
+  private final RestTemplate restTemplate;
 
-  public BookingService(HotelsRepository hotelRepository, BookingRepository bookingRepository) {
-    this.hotelRepository = hotelRepository;
+  public BookingService(BookingRepository bookingRepository) {
     this.bookingRepository = bookingRepository;
+    this.restTemplate = new RestTemplate();
   }
 
   public byte[] generateReceipt(ObjectId bookingId) throws ReceiptIdNotFound {
@@ -37,19 +37,16 @@ public class BookingService {
   }
 
   public BookingResponse book(BookingRequest bookingRequest, String name) throws RoomLimitExceeded {
-    String hotelId = bookingRequest.hotel_id();
-    Hotel hotel = hotelRepository.findHotelById(hotelId);
-    boolean isBookable = hotel.areRoomsAvailable(bookingRequest.rooms());
-    if (!isBookable) {
+    String url = "http://localhost:8080/api/search/internal/book";
+    ResponseEntity<HotelReceipt> response = this.restTemplate.postForEntity(url, bookingRequest, HotelReceipt.class);
+    if (!response.getStatusCode().is2xxSuccessful()) {
       throw new RoomLimitExceeded();
     }
-
-    return processBookingRequest(bookingRequest, hotel, name);
+      assert response.getBody() != null;
+      return processBookingRequest(response.getBody(), name);
   }
 
-  private @NonNull BookingResponse processBookingRequest(BookingRequest bookingRequest, Hotel hotel, String username) {
-    HotelReceipt hotelReceipt = hotel.book(bookingRequest.rooms());
-    hotelRepository.save(hotel);
+  private @NonNull BookingResponse processBookingRequest(HotelReceipt hotelReceipt, String username) {
     Receipt receipt = new Receipt(username, hotelReceipt.id(), hotelReceipt.hotel(), hotelReceipt.rooms(), hotelReceipt.bill());
     Receipt savedHotel = bookingRepository.save(receipt);
     ObjectId receiptId = savedHotel.getId();

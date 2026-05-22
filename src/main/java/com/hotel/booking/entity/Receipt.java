@@ -1,4 +1,4 @@
-package com.hotel.entities;
+package com.hotel.booking.entity;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;

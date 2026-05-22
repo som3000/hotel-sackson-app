@@ -1,7 +1,7 @@
-package com.hotel.config;
+package com.hotel.search.config;
 
-import com.hotel.entities.Hotel;
-import com.hotel.repositories.HotelsRepository;
+import com.hotel.search.entities.Hotel;
+import com.hotel.search.repositories.HotelsRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

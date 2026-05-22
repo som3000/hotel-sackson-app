@@ -1,11 +1,11 @@
-package com.hotel.controller;
+package com.hotel.booking.controller;
 
+import com.hotel.booking.service.BookingService;
 import com.hotel.dto.BookingRequest;
 import com.hotel.dto.BookingResponse;
 import com.hotel.dto.DetailedReceipt;
 import com.hotel.exceptions.ReceiptIdNotFound;
 import com.hotel.exceptions.RoomLimitExceeded;
-import com.hotel.services.BookingService;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

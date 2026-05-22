@@ -1,6 +1,6 @@
-package com.hotel.repositories;
+package com.hotel.auth.repository;
 
-import com.hotel.models.User;
+import com.hotel.auth.entity.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.hotel.entities;
+package com.hotel.search.entities;
 
 import com.hotel.dto.HotelReceipt;
 import org.springframework.data.annotation.Id;
