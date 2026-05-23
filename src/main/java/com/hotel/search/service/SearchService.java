@@ -36,7 +36,7 @@ public class SearchService {
         List<HotelView> hotelsByCity = hotelRepository.findByCity(city);
         redisTemplate
                 .opsForValue()
-                .set(key, hotelsByCity, Duration.ofMinutes(2));
+                .set(key, hotelsByCity, Duration.ofMinutes(1));
 
         return hotelsByCity;
     }
