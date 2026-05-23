@@ -12,7 +12,8 @@ COPY gradle ./gradle
 RUN gradle dependencies --no-daemon
 
 # Copy the rest of the application source code
-COPY . .
+COPY src src
+
 
 # Build the JAR
 RUN gradle clean build -x test --no-daemon
@@ -24,10 +25,10 @@ FROM eclipse-temurin:25-jdk-jammy
 WORKDIR /app
 
 # Copy only the built JAR from the builder stage
-COPY --from=builder /app/build/libs/hotel-0.0.1-SNAPSHOT.jar ./hotel.jar
+COPY --from=builder /app/build/libs/*-SNAPSHOT.jar ./inventory.jar
 
 # Expose application port
-EXPOSE 8080
+EXPOSE 8081
 
 # Command to run the application
-CMD ["java", "-jar", "hotel.jar"]
+CMD ["java", "-jar", "inventory.jar"]

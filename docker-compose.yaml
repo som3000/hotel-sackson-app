@@ -1,16 +1,51 @@
 services:
-  app:
+  auth-service:
     build:
-      context: .
-      dockerfile: Dockerfile-Multistep
+      context: ./auth-service
     deploy:
-      replicas: 4
-    ports:
-      - "8080-8083:8080"
+      replicas: 2
+#    ports:
+#      - "8080:8080"
     environment:
       HOTEL_MONGO_URI: mongodb://mongo:27017/hotel
     depends_on:
       - mongo
+    networks:
+      - backend
+
+  inventory-service:
+    build:
+      context: ./inventory-service
+    deploy:
+      replicas: 2
+#    ports:
+#      - "8081:8081"
+    environment:
+      HOTEL_MONGO_URI: mongodb://mongo:27017/hotel
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - backend
+
+
+  bookings-service:
+    build:
+      context: ./booking-service
+    deploy:
+      replicas: 2
+#    ports:
+#      - "8082:8082"
+    environment:
+      HOTEL_MONGO_URI: mongodb://mongo:27017/hotel
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      - mongo
+      - redis
+      - inventory-service
     networks:
       - backend
 
@@ -30,6 +65,8 @@ services:
       - redis_data:/data/db
 
     restart: always
+    networks:
+      - backend
 
   mongo:
     image: mongo:7
@@ -47,7 +84,9 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - app
+      - bookings-service
+      - inventory-service
+      - auth-service
     networks:
       - backend
 
