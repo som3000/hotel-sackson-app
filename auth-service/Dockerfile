@@ -1,0 +1,33 @@
+# -------- Build Stage --------
+FROM gradle:jdk25 AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy Gradle wrapper and build scripts first for caching
+COPY build.gradle settings.gradle ./
+COPY gradle ./gradle
+
+# Download dependencies (cached if unchanged)
+RUN gradle dependencies --no-daemon
+
+# Copy the rest of the application source code
+COPY src src
+
+# Build the JAR
+RUN gradle clean build -x test --no-daemon
+
+# -------- Runtime Stage --------
+FROM eclipse-temurin:25-jdk-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Copy only the built JAR from the builder stage
+COPY --from=builder /app/build/libs/auth-service-0.0.1-SNAPSHOT.jar ./auth.jar
+
+# Expose application port
+EXPOSE 8080
+
+# Command to run the application
+CMD ["java", "-jar", "auth.jar"]

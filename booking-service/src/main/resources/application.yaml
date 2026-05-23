@@ -2,7 +2,15 @@ spring:
   application:
     name: booking-service
 
+  mongodb:
+    uri: "${HOTEL_MONGO_URI:mongodb://localhost:27017/hotel}"
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+      timeout: 6000ms
+
 server:
   servlet:
     context-path: /api
-  port: 8082
+  port: 8081
