@@ -1,1 +1,5 @@
 rootProject.name = 'hotel'
+
+include 'auth-service'
+include 'booking-service'
+include 'inventory-service'
