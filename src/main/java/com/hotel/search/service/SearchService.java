@@ -6,7 +6,6 @@ import com.hotel.dto.HotelView;
 import com.hotel.exceptions.RoomLimitExceeded;
 import com.hotel.search.entities.Hotel;
 import com.hotel.search.repositories.HotelsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
