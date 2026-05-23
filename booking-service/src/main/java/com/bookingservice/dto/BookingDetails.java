@@ -1,4 +1,6 @@
 package com.bookingservice.dto;
 
-public record BookingDetails(String bookingId) {
+import org.bson.types.ObjectId;
+
+public record BookingDetails(String id) {
 }

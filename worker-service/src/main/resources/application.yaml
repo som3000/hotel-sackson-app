@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: worker-service
+server:
+  servlet:
+    context-path: /api
+  port: 8083

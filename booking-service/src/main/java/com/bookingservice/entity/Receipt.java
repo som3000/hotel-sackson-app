@@ -10,20 +10,26 @@ public class Receipt {
   private ObjectId id;
 
   private final String username;
-  private final String hotel_id;
+  private final String hotelId;
   private final String hotel;
   private final int rooms;
   private final double bill;
+  private String pdfUrl;
 
-  public Receipt(String username, String hotel_id, String hotel, int rooms, double bill) {
+  public Receipt(String username, String hotelId, String hotel, int rooms, double bill, String pdfUrl) {
     this.username = username;
-    this.hotel_id = hotel_id;
+    this.hotelId = hotelId;
     this.hotel = hotel;
     this.rooms = rooms;
     this.bill = bill;
+    this.pdfUrl = pdfUrl;
   }
 
   public ObjectId getId() {
     return id;
+  }
+
+  public void setId(ObjectId id) {
+    this.id = id;
   }
 }

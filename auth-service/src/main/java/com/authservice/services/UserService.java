@@ -20,7 +20,6 @@ public class UserService {
     }
     User newUser = new User(username, password);
     userRepository.save(newUser);
-    System.out.println(userRepository);
   }
 
 }

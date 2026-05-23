@@ -1,4 +1,4 @@
-package com.hotel.worker.config;
+package com.hotel.workerservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

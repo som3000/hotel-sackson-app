@@ -1,5 +1,7 @@
 package com.bookingservice.queue;
+
 import com.bookingservice.dto.BookingDetails;
+import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;

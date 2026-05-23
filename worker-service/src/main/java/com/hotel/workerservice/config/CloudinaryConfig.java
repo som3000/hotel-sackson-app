@@ -1,4 +1,4 @@
-package com.hotel.worker.config;
+package com.hotel.workerservice.config;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
