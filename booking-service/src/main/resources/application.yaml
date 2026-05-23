@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: booking-service
+
+server:
+  servlet:
+    context-path: /api
+  port: 8082
