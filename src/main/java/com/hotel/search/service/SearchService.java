@@ -6,20 +6,39 @@ import com.hotel.dto.HotelView;
 import com.hotel.exceptions.RoomLimitExceeded;
 import com.hotel.search.entities.Hotel;
 import com.hotel.search.repositories.HotelsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
 public class SearchService {
     private final HotelsRepository hotelRepository;
+    public RedisTemplate<String, List<HotelView>> redisTemplate;
 
-    public SearchService(HotelsRepository hotelRepository) {
+    public SearchService(HotelsRepository hotelRepository, RedisTemplate<String, List<HotelView>> redisTemplate) {
         this.hotelRepository = hotelRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     public List<HotelView> search(String city) {
-        return hotelRepository.findByCity(city);
+        String key = "hotelSearch:city:" + city.toLowerCase();
+        List<HotelView> hotels = redisTemplate.opsForValue().get(key);
+
+        if (hotels != null) {
+            System.out.println("Cache hit");
+            return hotels;
+        }
+        System.out.println("Cache missed");
+
+        List<HotelView> hotelsByCity = hotelRepository.findByCity(city);
+        redisTemplate
+                .opsForValue()
+                .set(key, hotelsByCity, Duration.ofMinutes(2));
+
+        return hotelsByCity;
     }
 
     public HotelReceipt allocateRoom(BookingRequest bookingRequest) throws RoomLimitExceeded {
